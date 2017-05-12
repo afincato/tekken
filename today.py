@@ -1,20 +1,24 @@
-path = 'arachne.todo.txt'
-todo_file = open(path, 'r')
+import re
+import datetime
 
-# print(todo_file.readlines())
+source_path = 'arachne.todo.txt'
+todo_file = open(source_path, 'r')
+todos = todo_file.readlines()
 
-title = '# Today \n'
+dest_path = 'today.todo.txt'
+today_todo = open(dest_path, 'w')
 
-todos = todo_file.read()
+title = '# Today \n\n'
+today_todo.write(title)
 
-today_path = 'today.todo.txt'
-today = open(today_path, 'w')
+date_today = datetime.date.today()
+date_today = date_today.strftime('%Y-%m-%d')
 
-today.write(title)
-print(title)
+for item in todos:
+  if '@due' in item:
+    if date_today in item:
+      today_todo.write(item)
 
-today.write(todos)
-print(todos)
 
 todo_file.close()
-today.close()
+today_todo.close()
