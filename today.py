@@ -14,6 +14,9 @@ today_todo.write(title)
 date_today = datetime.date.today()
 date_today = date_today.strftime('%Y-%m-%d')
 
+project_title = '#' + todos[0] + ' \n'
+today_todo.write(project_title)
+
 for item in todos:
   if '@due' in item:
     if date_today in item:
