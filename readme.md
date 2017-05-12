@@ -1,6 +1,6 @@
 # dot-todo
 
-## for a critique of plain-text todo: apps, syntax, intents, usage
+## for a critique of plain-text todo: apps, syntaxes, intents, usages
 
 I could just stick to any ‘proper’ task management application, in the best case using a database of some sort, and stick with it.
 
@@ -87,3 +87,11 @@ The reasons to make an (web)app:
 5. finally, the app should be able to fire due reminders, using the OS native system when possible (I just know that’s the only useful Notification I found in macOS). I personally like more when my phone displays a reminder for something, and I wonder if a todo app should display reminders at all, as I mostly associate them with calendar events, but this could be an option.
 
 The app should still maintain the power, speed, and flexibility of manipulating raw text, with the ability to transform each task into an ‘atom’, something you can interact with, modify etc. without feeling you are still in a text box.
+
+* * *
+
+Make a python script that:
+1. parse all the files in that folder
+2. create and or update a today.todo containing all tasks either tagged with @today or with @due(date-of-today)
+3. create and or update a week.todo containing all tasks tagged with a @due(date-of-today) that’s within the coming seven days
+4. if tasks are due yesterday, leave them in today.todo and week.todo under `## overtime`
