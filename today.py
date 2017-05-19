@@ -2,10 +2,6 @@ import os
 import glob
 import datetime
 
-# source_path = 'arachne.todo.txt'
-# todo_file = open(source_path, 'r')
-# todos = todo_file.readlines()
-
 dest_path = 'today.todo.txt'
 today_todo = open(dest_path, 'w')
 
@@ -13,7 +9,7 @@ title = '# Today \n'
 today_todo.write(title)
 
 date_today = datetime.date.today()
-date_today = date_today.strftime('%Y-%m-%d')
+date_today = date_today.strftime('%d-%m-%Y')
 
 for file in set(glob.glob('*todo.txt')) - set(glob.glob('today.todo.txt')):
   print(file)
@@ -26,6 +22,7 @@ for file in set(glob.glob('*todo.txt')) - set(glob.glob('today.todo.txt')):
       if '@due' in item:
         if date_today in item:
           today_todo.write(item)
+          print(item)
 
 
 fp.close()
