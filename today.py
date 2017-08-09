@@ -47,8 +47,11 @@ def today_list():
             if '- [ ]' in item:
               # section
               sc = ls[0][3:-1]
-              tk = item[:5] + ' ' + sc + ':' + item[5:]
               # task
+              tk = item[:5] + ' ' + sc + ':' + item[5:]
+              atdue = tk.find('@due')
+              tk = tk[:atdue] + '\n'
+              # ? take out @due in `tk` ?
               due_today.append(tk)
       
       if len(due_today) > 0:
