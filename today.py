@@ -46,13 +46,14 @@ def today_list():
           if date_today in item and '##' in ls[0]:
             if '- [ ]' in item:
               # section
-              due_today.append('#' + ls[0])
+              sc = ls[0][3:-1]
+              tk = item[:5] + ' ' + sc + ':' + item[5:]
               # task
-              due_today.append(item)
+              due_today.append(tk)
       
       if len(due_today) > 0:
         # title w/ @due and tags
-        due_today.insert(0, '#' + project[0])
+        due_today.insert(0, '#' + project[0] + '\n')
       
       for line in due_today:
         print(line)
