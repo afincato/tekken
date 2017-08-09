@@ -3,55 +3,96 @@ import glob
 import datetime
 import re
 
-# --- read from each project.todo
-# --- && write a comprehensive list to today.todo
+def today_list():
+  # --- read from each project.todo
 
-date_today = datetime.date.today()
-date_today = date_today.strftime('%d-%m-%Y')
-date_title = date_today + '\n----------\n'
+  # title
+  title = 'Today \n'
 
-for file in set(glob.glob('*todo.txt')) - set(glob.glob('today.todo.txt')):
-  
-  with open(file) as fp:
-    project = fp.readlines()
-    # print(project)
+  # date
+  date_today = datetime.date.today()
+  date_today = date_today.strftime('%d-%m-%Y')
+  date_title = date_today + '\n----------\n\n'
 
-    print('\n' + project[0])
+  header = title + date_title
+  print(header)
 
-    tasks_due = [item for item in project
-                 if date_today in item
-                 if '- [ ]' in item]
-    
-    tasks_done = [item for item in project
-                  if date_today in item
-                  if '- [x]' in item]
+  # ---
 
-    # todo: add `~~item~~` right after `- [x]` &&
-    #       before any `@due(dd-mm-yyyy)`
+  for file in set(glob.glob('*todo.txt')) - set(glob.glob('today.todo.txt')):
 
-    # merge two lists and put done tasks at the end
-    items = tasks_due + tasks_done
-    print('\n'.join(str(item) for item in items))
+    with open(file) as fp:
+      project = fp.readlines()
+      # print(project)
+     
+      # project.todo
+     
+      # split list into smaller lists 
+      # by section '##'
+      def group(seq, sep):
+        g = []
+        for el in seq:
+          if sep in el:
+            yield g
+            g = []
+          g.append(el)
+        yield g
 
+      section = list(group(project, '##'))
 
-# --- write all projects to today.todo
-# with open('today.todo.txt', 'w') as tf:
+      due_today = []
+      for ls in section:
+        for item in ls:
+          if date_today in item and '##' in ls[0]:
+            if '- [ ]' in item:
+              # section
+              due_today.append('#' + ls[0])
+              # task
+              due_today.append(item)
+      
+      if len(due_today) > 0:
+        # title w/ @due and tags
+        due_today.insert(0, '#' + project[0])
+      
+      for line in due_today:
+        print(line)
+      
+      with open('today.todo.txt', 'w') as f:
+        f.write(header)
 
-#   title = '# Today\n\n'
-#   tf.write(title)
-#   print(title)
-  
-#   tf.write(date_title)
-#   print(date_title)
+        for line in due_today:
+          f.write(str(line))
 
+      # tasks_due = [item for item in project
+      #              if date_today in item
+      #              if '- [ ]' in item]
+      
+      # tasks_done = [item for item in project
+      #               if date_today in item
+      #               if '- [x]' in item]
 
-#   # project title
-#   project_title = '\n#' + project[0] + ' \n'
-#   tf.write(project_title)
+      # merge two lists and put done tasks at the end
+      # items = tasks_due + tasks_done
+      # print(''.join(str(item) for item in due))
 
-#   tf.write('\n'.join(str(item) for item in items))
-#   for item in items:
-#     print(item)
+      # --- write all projects to today.todo
+      # with open('today.todo.txt', 'w') as tf:
+
+      #   title = '# Today\n\n'
+      #   tf.write(title)
+      #   print(title)
+
+      #   tf.write(date_title)
+      #   print(date_title)
+
+      #   # project title
+      #   project_title = '\n#' + project[0] + ' \n'
+      #   tf.write(project_title)
+
+      #   tf.write('\n'.join(str(item) for item in items))
+      #   for item in items:
+      #     print(item)
 
 # ------
-# if __name__ = "__main__":
+if __name__ == "__main__":
+    today_list()
