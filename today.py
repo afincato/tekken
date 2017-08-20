@@ -42,23 +42,8 @@ def today_list():
 
       due_today = []
       for ls in section:
-        if ls[0].endswith('*\n') or date_today in ls[0]:
-          ls[0] = '#' + ls[0]
-          for item in ls:
-            due_today.append(item)
-
+        
         for item in ls:
-          # if item.endswith('*\n') or date_today in item and '##' in ls[0]:
-          #   if '- [ ]' in item:
-          #     # section
-          #     sc = ls[0][3:-1]
-          #     # task
-          #     tk = item[:5] + ' ' + sc + ':' + item[5:]
-          #     atdue = tk.find('@due')
-          #     tk = tk[:atdue] + '\n'
-          #     due_today.append(tk)
-          
-          
           if '@due' in item and '##' in ls[0]:
             itemdate = item[-13:]
             itemdate = itemdate[1:-2]
@@ -67,23 +52,36 @@ def today_list():
             item_dttoday = datetime.date.today()
             
             if itemdate == item_dttoday and '- [ ]' in item:
-                # section
+              # section
+              if '@due' in ls[0]:
+                scdue = ls[0].find('@due')
+                sc = ls[0][3:scdue].strip()
+
+              elif ls[0].endswith('*\n'):
+                sc = ls[0][3:-3]
+              else:
                 sc = ls[0][3:-1]
-                # task
-                tk = item[:5] + ' ' + sc + ':' + item[5:]
-                atdue = tk.find('@due')
-                tk = tk[:atdue] + '\n'
-                due_today.append(tk)
+
+              # task
+              tk = item[:5] + ' ' + sc + ':' + item[5:]
+              atdue = tk.find('@due')
+              tk = tk[:atdue] + '\n'
+              due_today.append(tk)
             
-            # elif itemdate < item_dttoday:
-            #   if '- [ ]' in item:
-            #     # section
-            #     sc = ls[0][3:-1]
-            #     # task
-            #     tk = item[:5] + ' ' + sc + ':' + item[5:]
-            #     atdue = tk.find('@due')
-            #     tk = tk[:atdue] + '\n'
-            #     due_today.append(tk)
+            elif itemdate < item_dttoday and '- [ ]' in item:
+              # section
+              if '@due' in ls[0]:
+                scdue = ls[0].find('@due')
+                sc = ls[0][3:scdue].strip()
+
+              elif ls[0].endswith('*\n'):
+                sc = ls[0][3:-3]
+              else:
+                sc = ls[0][3:-1]
+              
+              # task w/ overdue date
+              tk = item[:5] + ' ' + sc + ':' + item[5:]
+              due_today.append(tk)
 
 
       if len(due_today) > 0:
