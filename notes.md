@@ -1,6 +1,8 @@
 
 (05-05-2017)
 
+(one of the many notes written between May and August 2017 while playing with the code; written all in one go and never checked it out so pretty messy; plan to review them and put a better text together)
+
 # for a critique of plain-text todo: apps, syntaxes, intents, usages
 
 I could just stick to any ‘proper’ task management application, in the best case using a database of some sort, and stick with it.
