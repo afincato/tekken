@@ -1,0 +1,25 @@
+# overview
+
+## active projects
+---------------
+
+- project yy @due(24-06-2017)
+- project ee @due(10-07-2017)
+- project ff
+- project cc @due(10-09-2017)
+
+### due this month
+
+- project yy @due(24-06-2017) → 70% done
+
+### due in three months
+
+- project cc @due(10-09-2017) → 10% done
+
+## inactive projects
+-----------------
+
+- project dd
+- project rr
+- project tt
+- project oo
