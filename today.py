@@ -12,15 +12,16 @@ def today_list():
   # date
   date_today = datetime.date.today()
   date_today = date_today.strftime('%d-%m-%Y')
-  date_title = date_today + '\n----------\n\n'
+  date_title = date_today + '\n----------\n'
 
   header = title + date_title
   print(header)
 
   # ---
-
+  due_today = []
   for file in set(glob.glob('*todo.txt')) - set(glob.glob('today.todo.txt')):
 
+    due_today_prj = []
     with open(file) as fp:
       project = fp.readlines()
 
@@ -37,10 +38,9 @@ def today_list():
 
       section = list(group(project, '##'))
 
-      due_today = []
       for ls in section:
         for item in ls:
-          
+
           #-- due tasks
           if '@due' in item and '##' in ls[0]:
 
@@ -68,7 +68,7 @@ def today_list():
               tk = tk[:atdue] + '\n'
               if not ls[-1].endswith('\n'):
                 ls[-1] = ls[-1] + '\n'
-              due_today.append(tk)
+              due_today_prj.append(tk)
 
             #-- overdue
             elif itemdate < item_dttoday and '- [ ]' in item:
@@ -85,7 +85,7 @@ def today_list():
               tk = item[:5] + ' ' + sc + ':' + item[5:]
               if not ls[-1].endswith('\n'):
                 ls[-1] = ls[-1] + '\n'
-              due_today.append(tk)
+              due_today_prj.append(tk)
 
           #-- starred task
           elif item.endswith(('*', '*\n')) and '- [ ]' in item:
@@ -93,7 +93,6 @@ def today_list():
             if '@due' in ls[0]:
               scdue = ls[0].find('@due')
               sc = ls[0][3:scdue].strip()
-
             elif ls[0].endswith(('*', '*\n')):
               sc = ls[0][3:-3]
             else:
@@ -102,33 +101,28 @@ def today_list():
             tk = item[:5] + ' ' + sc + ':' + item[5:]
             if not ls[-1].endswith('\n'):
               ls[-1]= ls[-1] + '\n'
-            due_today.append(tk)
+            due_today_prj.append(tk)
 
       #-- title w/ @due and tags
-      if len(due_today) > 0:
-        due_today.insert(0, '#' + project[0] + '\n')
+      if len(due_today_prj) > 0:
+        due_today_prj.insert(0, '\n#' + project[0] + '\n')
 
-      #-- print today list
-      for line in due_today:
-        print(line)
+    #-- print today list
+    # for line in due_today_prj:
+      # print(line)
 
-      #-- write today list to file
-      with open('today.todo.txt', 'w') as f:
-        f.write(header)
+    #-- add each `due_today_prj` to `due_today`
+    due_today.append(due_today_prj)
 
-        for line in due_today:
-          f.write(str(line))
+  print(due_today)
 
-      # ---
-      # task done `- [x]`
-      # item_done = []
-      # if item.endswith(('*', '*\n')) and '- [x]' in item:
-      #   item_done.append(item)
+  #-- write today list to file
+  with open('today.todo.txt', 'w') as f:
+    f.write(header)
 
-      # # add done tasks to `due_today`
-      # if len(item_done) > 0:
-      #   due_today.extend(item_done)
-
+    for due_today_prj in due_today:
+      for line in due_today_prj:
+        f.write(line)
 
 # ------
 if __name__ == "__main__":
