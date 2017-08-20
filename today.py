@@ -39,15 +39,15 @@ def today_list():
 
       due_today = []
       for ls in section:
-
         for item in ls:
-
+          
           #-- due tasks
           if '@due' in item and '##' in ls[0]:
 
             #-- date
-            itemdate = item[-13:]
-            itemdate = itemdate[1:-2]
+            duemark = item.find('@due')
+            itemdate = item[duemark:]
+            itemdate = itemdate[5:-2]
             itemdate = datetime.datetime.strptime(itemdate, '%d-%m-%Y').date()
             item_dttoday = datetime.date.today()
 
@@ -57,7 +57,7 @@ def today_list():
               if '@due' in ls[0]:
                 scdue = ls[0].find('@due')
                 sc = ls[0][3:scdue].strip()
-              elif ls[0].endswith('*\n'):
+              elif ls[0].endswith(('*', '*\n')):
                 sc = ls[0][3:-3]
               else:
                 sc = ls[0][3:-1]
@@ -66,6 +66,8 @@ def today_list():
               tk = item[:5] + ' ' + sc + ':' + item[5:]
               atdue = tk.find('@due')
               tk = tk[:atdue] + '\n'
+              if not ls[-1].endswith('\n'):
+                ls[-1] = ls[-1] + '\n'
               due_today.append(tk)
 
             #-- overdue
@@ -74,13 +76,15 @@ def today_list():
               if '@due' in ls[0]:
                 scdue = ls[0].find('@due')
                 sc = ls[0][3:scdue].strip()
-              elif ls[0].endswith('*\n'):
+              elif ls[0].endswith(('*', '*\n')):
                 sc = ls[0][3:-3]
               else:
                 sc = ls[0][3:-1]
 
               # task w/ overdue date
               tk = item[:5] + ' ' + sc + ':' + item[5:]
+              if not ls[-1].endswith('\n'):
+                ls[-1] = ls[-1] + '\n'
               due_today.append(tk)
 
           #-- starred task
@@ -90,12 +94,14 @@ def today_list():
               scdue = ls[0].find('@due')
               sc = ls[0][3:scdue].strip()
 
-            elif ls[0].endswith('*\n'):
+            elif ls[0].endswith(('*', '*\n')):
               sc = ls[0][3:-3]
             else:
               sc = ls[0][3:-1]
 
             tk = item[:5] + ' ' + sc + ':' + item[5:]
+            if not ls[-1].endswith('\n'):
+              ls[-1]= ls[-1] + '\n'
             due_today.append(tk)
 
       #-- title w/ @due and tags
@@ -113,7 +119,7 @@ def today_list():
         for line in due_today:
           f.write(str(line))
 
-
+      # ---
       # task done `- [x]`
       # item_done = []
       # if item.endswith(('*', '*\n')) and '- [x]' in item:
