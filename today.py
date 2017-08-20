@@ -7,7 +7,7 @@ def today_list():
   # --- read from each project.todo
 
   # title
-  title = 'Today \n'
+  title = '# today.todo \n\n'
 
   # date
   date_today = datetime.date.today()
@@ -43,7 +43,7 @@ def today_list():
       due_today = []
       for ls in section:
         for item in ls:
-          if date_today in item and '##' in ls[0]:
+          if item.endswith('*\n') or date_today in item and '##' in ls[0]:
             if '- [ ]' in item:
               # section
               sc = ls[0][3:-1]
@@ -51,7 +51,6 @@ def today_list():
               tk = item[:5] + ' ' + sc + ':' + item[5:]
               atdue = tk.find('@due')
               tk = tk[:atdue] + '\n'
-              # ? take out @due in `tk` ?
               due_today.append(tk)
       
       if len(due_today) > 0:
@@ -66,36 +65,6 @@ def today_list():
 
         for line in due_today:
           f.write(str(line))
-
-      # tasks_due = [item for item in project
-      #              if date_today in item
-      #              if '- [ ]' in item]
-      
-      # tasks_done = [item for item in project
-      #               if date_today in item
-      #               if '- [x]' in item]
-
-      # merge two lists and put done tasks at the end
-      # items = tasks_due + tasks_done
-      # print(''.join(str(item) for item in due))
-
-      # --- write all projects to today.todo
-      # with open('today.todo.txt', 'w') as tf:
-
-      #   title = '# Today\n\n'
-      #   tf.write(title)
-      #   print(title)
-
-      #   tf.write(date_title)
-      #   print(date_title)
-
-      #   # project title
-      #   project_title = '\n#' + project[0] + ' \n'
-      #   tf.write(project_title)
-
-      #   tf.write('\n'.join(str(item) for item in items))
-      #   for item in items:
-      #     print(item)
 
 # ------
 if __name__ == "__main__":
