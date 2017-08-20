@@ -23,11 +23,8 @@ def today_list():
 
     with open(file) as fp:
       project = fp.readlines()
-      # print(project)
 
-      # project.todo
-
-      # split list into smaller lists 
+      # split list into smaller lists
       # by section '##'
       def group(seq, sep):
         g = []
@@ -44,21 +41,22 @@ def today_list():
       for ls in section:
 
         for item in ls:
+
+          #-- due tasks
           if '@due' in item and '##' in ls[0]:
+
+            #-- date
             itemdate = item[-13:]
             itemdate = itemdate[1:-2]
             itemdate = datetime.datetime.strptime(itemdate, '%d-%m-%Y').date()
-
             item_dttoday = datetime.date.today()
 
-            # task not done `- [ ]`
             #-- due today
             if itemdate == item_dttoday and '- [ ]' in item:
               # section
               if '@due' in ls[0]:
                 scdue = ls[0].find('@due')
                 sc = ls[0][3:scdue].strip()
-
               elif ls[0].endswith('*\n'):
                 sc = ls[0][3:-3]
               else:
@@ -76,7 +74,6 @@ def today_list():
               if '@due' in ls[0]:
                 scdue = ls[0].find('@due')
                 sc = ls[0][3:scdue].strip()
-
               elif ls[0].endswith('*\n'):
                 sc = ls[0][3:-3]
               else:
@@ -101,27 +98,31 @@ def today_list():
             tk = item[:5] + ' ' + sc + ':' + item[5:]
             due_today.append(tk)
 
-
-            # task done `- [x]`
-            # item_done = []
-            # if '- [x]' in item:
-              # item_done.append(item)
-
-      # if len(item_done) > 0:
-        # due_today.extend(item_done)
-
+      #-- title w/ @due and tags
       if len(due_today) > 0:
-        # title w/ @due and tags
         due_today.insert(0, '#' + project[0] + '\n')
 
+      #-- print today list
       for line in due_today:
         print(line)
 
+      #-- write today list to file
       with open('today.todo.txt', 'w') as f:
         f.write(header)
 
         for line in due_today:
           f.write(str(line))
+
+
+      # task done `- [x]`
+      # item_done = []
+      # if item.endswith(('*', '*\n')) and '- [x]' in item:
+      #   item_done.append(item)
+
+      # # add done tasks to `due_today`
+      # if len(item_done) > 0:
+      #   due_today.extend(item_done)
+
 
 # ------
 if __name__ == "__main__":
