@@ -1,6 +1,7 @@
-# dot-todo
 
-## for a critique of plain-text todo: apps, syntaxes, intents, usages
+(05-05-2017)
+
+# for a critique of plain-text todo: apps, syntaxes, intents, usages
 
 I could just stick to any ‘proper’ task management application, in the best case using a database of some sort, and stick with it.
 
