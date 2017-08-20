@@ -38,3 +38,12 @@ Example
 ```
 
 Adding `@due(dd-mm-yyyy)` and `*` to a `## section` is also possible: it will grab all containing items and will put them in `today.todo.txt`.
+ 
+## Portability
+
+With plain text files you can do any kind of text-manipulation, eg:
+
+* copy a list or a bunch of newlines from an email and format each new line / list-item as task-list-item w/ a shortcut (iaWriter can do it, I suppose neovim as well, emacs for sure)
+* copy from `project.todo` and paste it somewhere, share it, send a message, etc.
+* print it out on a piece of paper (stupid but useful)
+* convert it back and forth from / to `json`! This is something I want to work on
