@@ -43,20 +43,49 @@ def today_list():
       due_today = []
       for ls in section:
         if ls[0].endswith('*\n') or date_today in ls[0]:
+          ls[0] = '#' + ls[0]
           for item in ls:
             due_today.append(item)
 
         for item in ls:
-          if item.endswith('*\n') or date_today in item and '##' in ls[0]:
-            if '- [ ]' in item:
-              # section
-              sc = ls[0][3:-1]
-              # task
-              tk = item[:5] + ' ' + sc + ':' + item[5:]
-              atdue = tk.find('@due')
-              tk = tk[:atdue] + '\n'
-              due_today.append(tk)
-      
+          # if item.endswith('*\n') or date_today in item and '##' in ls[0]:
+          #   if '- [ ]' in item:
+          #     # section
+          #     sc = ls[0][3:-1]
+          #     # task
+          #     tk = item[:5] + ' ' + sc + ':' + item[5:]
+          #     atdue = tk.find('@due')
+          #     tk = tk[:atdue] + '\n'
+          #     due_today.append(tk)
+          
+          
+          if '@due' in item and '##' in ls[0]:
+            itemdate = item[-13:]
+            itemdate = itemdate[1:-2]
+            itemdate = datetime.datetime.strptime(itemdate, '%d-%m-%Y').date()
+
+            item_dttoday = datetime.date.today()
+            
+            if itemdate == item_dttoday and '- [ ]' in item:
+                # section
+                sc = ls[0][3:-1]
+                # task
+                tk = item[:5] + ' ' + sc + ':' + item[5:]
+                atdue = tk.find('@due')
+                tk = tk[:atdue] + '\n'
+                due_today.append(tk)
+            
+            # elif itemdate < item_dttoday:
+            #   if '- [ ]' in item:
+            #     # section
+            #     sc = ls[0][3:-1]
+            #     # task
+            #     tk = item[:5] + ' ' + sc + ':' + item[5:]
+            #     atdue = tk.find('@due')
+            #     tk = tk[:atdue] + '\n'
+            #     due_today.append(tk)
+
+
       if len(due_today) > 0:
         # title w/ @due and tags
         due_today.insert(0, '#' + project[0] + '\n')
