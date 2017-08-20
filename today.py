@@ -24,9 +24,9 @@ def today_list():
     with open(file) as fp:
       project = fp.readlines()
       # print(project)
-     
+
       # project.todo
-     
+
       # split list into smaller lists 
       # by section '##'
       def group(seq, sep):
@@ -42,7 +42,7 @@ def today_list():
 
       due_today = []
       for ls in section:
-        
+
         for item in ls:
           if '@due' in item and '##' in ls[0]:
             itemdate = item[-13:]
@@ -50,7 +50,9 @@ def today_list():
             itemdate = datetime.datetime.strptime(itemdate, '%d-%m-%Y').date()
 
             item_dttoday = datetime.date.today()
-            
+
+            # task not done `- [ ]`
+            #-- due today
             if itemdate == item_dttoday and '- [ ]' in item:
               # section
               if '@due' in ls[0]:
@@ -67,7 +69,8 @@ def today_list():
               atdue = tk.find('@due')
               tk = tk[:atdue] + '\n'
               due_today.append(tk)
-            
+
+            #-- overdue
             elif itemdate < item_dttoday and '- [ ]' in item:
               # section
               if '@due' in ls[0]:
@@ -78,19 +81,42 @@ def today_list():
                 sc = ls[0][3:-3]
               else:
                 sc = ls[0][3:-1]
-              
+
               # task w/ overdue date
               tk = item[:5] + ' ' + sc + ':' + item[5:]
               due_today.append(tk)
 
+          #-- starred task
+          elif item.endswith(('*', '*\n')) and '- [ ]' in item:
+            # section
+            if '@due' in ls[0]:
+              scdue = ls[0].find('@due')
+              sc = ls[0][3:scdue].strip()
+
+            elif ls[0].endswith('*\n'):
+              sc = ls[0][3:-3]
+            else:
+              sc = ls[0][3:-1]
+
+            tk = item[:5] + ' ' + sc + ':' + item[5:]
+            due_today.append(tk)
+
+
+            # task done `- [x]`
+            # item_done = []
+            # if '- [x]' in item:
+              # item_done.append(item)
+
+      # if len(item_done) > 0:
+        # due_today.extend(item_done)
 
       if len(due_today) > 0:
         # title w/ @due and tags
         due_today.insert(0, '#' + project[0] + '\n')
-      
+
       for line in due_today:
         print(line)
-      
+
       with open('today.todo.txt', 'w') as f:
         f.write(header)
 
