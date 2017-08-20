@@ -42,6 +42,10 @@ def today_list():
 
       due_today = []
       for ls in section:
+        if ls[0].endswith('*\n') or date_today in ls[0]:
+          for item in ls:
+            due_today.append(item)
+
         for item in ls:
           if item.endswith('*\n') or date_today in item and '##' in ls[0]:
             if '- [ ]' in item:
