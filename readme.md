@@ -37,4 +37,4 @@ Example
 
 ```
 
-Adding `@due(dd-mm-yyyy)` and `*` to a `## section` is also possible and grab all containing items part of it and put them in `today.todo.txt`.
+Adding `@due(dd-mm-yyyy)` and `*` to a `## section` is also possible: it will grab all containing items and will put them in `today.todo.txt`.
