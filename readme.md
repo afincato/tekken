@@ -35,8 +35,15 @@ Example
 - [x] make nothing d(20082017)
 - [ ] nah s(20082017)
 - [c] ehh
-
 ```
+
+### 28-02-2018
+
+Since last summer, I use the above syntax without the python script, and made it smoother while still intelligible. In details:
+
+- `@due(dd-mm-yyyy)` has become `d(ddmmyyyy)`; writing the date without dashes is faster and still readable enough and am working [on this](https://github.com/afincato/stress) that puts back dashes when the file is served as a webpage
+- beside `d(ddmmyyyy)` (which stands for `deadline`), there is also `s(ddmmyyyy)` (`scheduled`); and possibly you can use a shortcut for setting the date to today with `d(t)` (still deciding if useful or not)
+- added a couple more of *states* for the task-list item, `waiting` (`- [w]`) and `cancelled` (`- [c]`) (both borrowed from `org-mode` which borrows from the `gtd` philosophy); they began to make sense to me, as beside a task being done or undone, other states can take place in there
  
 ## Portability
 
