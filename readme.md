@@ -11,33 +11,32 @@ Meanwhile I put together less messy notes, the basic idea is:
 
 ## Basic syntax
 
-| syntax             | meaning         |                            
-|:--                 |:--              |
-| `- [ ]`            | undone task     |
-| `- [x]`            | done task       |
-| `@due(dd-mm-yyyy)` | due date        |
-| `*`                | starred task    |
-| `## section`       | section divider |
+| syntax             | meaning           |                            
+|:--                 |:--                |
+| `- [ ]`            | undone task       |
+| `- [x]`            | done task         |
+| `- [c]`            | cancelled task    |
+| `- [w]`            | waiting task      |
+| `s(ddmmyyyy)`      | scheduled task    |
+| `d(ddmmyyyy)`      | deadline for task |
+| `d(t)`             | deadline today    |
+| `## section`       | section divider   |
 
 Example
 
 ```
-# nein @due(20-08-2017) #project
-
 ## general
 
-- [x] test *
+- [x] test d(t)
+- [w] toast
 
-## ahah *
+## ahah
 
-- [x] make nothing @due(20-08-2017)
-- [ ] nah @due(20-08-2017)
-- [ ] ehh *
-- [ ] don’t @due(20-08-2017)
+- [x] make nothing d(20082017)
+- [ ] nah s(20082017)
+- [c] ehh
 
 ```
-
-Adding `@due(dd-mm-yyyy)` and `*` to a `## section` is also possible: it will grab all containing items and will put them in `today.todo.txt`.
  
 ## Portability
 
