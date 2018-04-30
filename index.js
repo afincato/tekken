@@ -2,11 +2,13 @@ var fs = require('fs');
 var date_rx = /\sd\((\d\d)-(\d\d)-(\d\d\d\d)\)/
 
 function parse_line (line) {
-  var section = line.substring(0, 2);
-  if (section === '##') {
+  var section = line.match(/#+\s/);
+
+  if (section) {
     return {
       type: 'header',
-      value: line.substring(3)
+      value: line.substring(section[0].length),
+      level: section[0].length -1
     }
   }
 
@@ -26,7 +28,6 @@ function parse_date (value) {
   if (date) {
     date = new Date (date[3], date[2], date[1])
   }
-  console.log(date)
   return date
 }
 
@@ -40,6 +41,44 @@ function parse_status (value) {
   return status[value]
 }
 
+function parse_tree (lines, level) {
+  var stack = [{level: 0}]
+  var tree = {type: 'root', children: []}
+  var leaf = tree
+
+  lines.forEach(function(line) {
+
+    if (line.type === 'header') {
+      line.children = []
+
+      // if the levels are the same: replace top of stack
+      if (line.level === stack[stack.length -1].level) {
+        stack.pop()
+        leaf = stack[stack.length -1]
+        leaf.children.push(line)
+        stack.push(line)
+      // if the level is higher than the previous
+      } else if (line.level > stack[stack.length -1].level) {
+        stack.push(line)
+        leaf.children.push(line)
+      // if the level is lower than the previous
+      } else {
+        stack.pop()
+        leaf.children.push(line)
+      }
+
+      leaf = stack[stack.length -1]
+    }
+
+    if (line.type === 'task') {
+      leaf.children.push(line)
+    }
+
+  })
+
+  return tree
+}
+
 fs.readFile('waa.todo.txt', 'UTF-8', function(err, data) {
   var lines = data.split('\n')
 
@@ -47,7 +86,5 @@ fs.readFile('waa.todo.txt', 'UTF-8', function(err, data) {
     return line
   })
 
-  console.log(lines);
+  console.log(JSON.stringify(parse_tree(lines), null, 2));
 })
-
-
