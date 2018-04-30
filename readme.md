@@ -31,7 +31,9 @@ Example
 
 ## Why
 
-Taking as much as we can from stuff like [org-mode](https://orgmode.org), put it into a web interface. Keep using simple text files with a markdown syntax (extended), where you can mix notes and tasks and anything, then have a proper view to filter out tasks from notes etc.
+Taking as much as we can from stuff like [org-mode](https://orgmode.org), and put it into a web interface. Keep using simple text files with a markdown syntax (extended), where you can mix notes and tasks and anything, then have a proper view to filter out tasks from notes etc. No need to switch to emacs, no fear to have your data locked-in in some application.
+
+Using [dat](https://datproject.org) to collaborate on those text files (soon).
  
 ## Portability
 
