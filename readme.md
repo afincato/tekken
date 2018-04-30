@@ -28,6 +28,10 @@ Example
 - [ ] nah s(20082017)
 - [c] ehh
 ```
+
+## Why
+
+Taking as much as we can from stuff like [org-mode](https://orgmode.org), put it into a web interface. Keep using simple text files with a markdown syntax (extended), where you can mix notes and tasks and anything, then have a proper view to filter out tasks from notes etc.
  
 ## Portability
 
