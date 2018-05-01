@@ -9,9 +9,8 @@ tekken
 | `- [x]`            | done task         |
 | `- [c]`            | cancelled task    |
 | `- [w]`            | waiting task      |
-| `s(ddmmyyyy)`      | scheduled task    |
-| `d(ddmmyyyy)`      | deadline for task |
-| `d(t)`             | deadline today    |
+| `s(dd-mm-yyyy)`    | scheduled task    |
+| `d(dd-mm-yyyy)`    | deadline for task |
 | `## section`       | section divider   |
 
 Example
@@ -24,8 +23,8 @@ Example
 
 ## ahah
 
-- [x] make nothing d(20082017)
-- [ ] nah s(20082017)
+- [x] make nothing d(20-08-2017)
+- [ ] nah s(20-08-2017)
 - [c] ehh
 ```
 
