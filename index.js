@@ -13,14 +13,12 @@ fs.readdir(folder, (err, files) => {
       if (err) throw err
 
       var parse_data = parse(data);
-      var filter_data = filter.filter(parse_data, filter.tm);
-      var vv = views(filter_data, []);
-      vv.forEach(function (ll) {
+      //filter tasks that are today and done
+      var filter_data = filter.filter(parse_data, filter.overlap(filter.td, filter.d));
+      views(filter_data, []).forEach(function (ll) {
         console.log(ll)
       })
       console.log('')
     })
   })
 })
-
-
