@@ -7,7 +7,7 @@ function parse (data) {
     return line
   })
 
-  console.log(JSON.stringify(parse_tree(lines), null, 2));
+  return parse_tree(lines);
 }
 
 function parse_line (line) {
@@ -35,7 +35,7 @@ function parse_line (line) {
 function parse_date (value) {
   var date = value.match(date_rx);
   if (date) {
-    date = new Date (date[3], date[2], date[1])
+    date = new Date (date[3] + "-" + date[2] + "-" + date[1])
   }
   return date
 }
