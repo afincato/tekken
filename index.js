@@ -3,7 +3,7 @@ var fs = require('fs')
 var process = require('process')
 var path = require('path')
 var folder = process.argv[2]
-var filter = require('./filtering')
+var filter = require('./filter')
 var views = require('./views')
 
 fs.readdir(folder, (err, files) => {
@@ -13,8 +13,10 @@ fs.readdir(folder, (err, files) => {
       if (err) throw err
 
       var parse_data = parse(data);
-      //filter tasks that are today and done
-      var filter_data = filter.filter(parse_data, filter.overlap(filter.td, filter.d));
+      var filter_data = filter.filter(
+        filter.filter(parse_data, filter.wk),
+        filter.prune
+      )
       views(filter_data, []).forEach(function (ll) {
         console.log(ll)
       })
