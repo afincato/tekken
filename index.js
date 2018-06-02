@@ -2,13 +2,22 @@ var parse = require('./parser')
 var fs = require('fs')
 var process = require('process')
 var path = require('path')
-var folder = process.argv[2]
 var filter = require('./filter')
 var views = require('./views')
 
-fs.readdir(folder, (err, files) => {
-  if (err) throw err
-  files.filter(file => { return path.extname(file) === '.txt' || path.extname(file) === '.md' }).forEach(file => {
+function read_directory(dir){
+    fs.readdir(folder, (err, files) => {
+      if (err) throw err
+
+      files
+        .filter(file => { return path.extname(file) === '.txt' || path.extname(file) === '.md' })
+        .forEach(file => {
+          read_file(file)
+        })
+    })
+}
+
+function read_file(file){
     fs.readFile(path.join(folder, file), 'UTF-8', function(err, data) {
       if (err) throw err
 
@@ -17,10 +26,14 @@ fs.readdir(folder, (err, files) => {
         filter.filter(parse_data, filter.wk),
         filter.prune
       )
-      views(filter_data, []).forEach(function (ll) {
-        console.log(ll)
+      views(filter_data, []).forEach(function (line) {
+        console.log(line)
       })
       console.log('')
     })
-  })
-})
+}
+
+function main(){
+  var folder = process.argv[2]
+  read_directory(folder)
+}
