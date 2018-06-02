@@ -5,20 +5,20 @@ var path = require('path')
 var filter = require('./filter')
 var views = require('./views')
 
-function read_directory(dir){
+function read_directory(folder){
     fs.readdir(folder, (err, files) => {
       if (err) throw err
 
       files
         .filter(file => { return path.extname(file) === '.txt' || path.extname(file) === '.md' })
         .forEach(file => {
-          read_file(file)
+          read_file(path.join(folder, file))
         })
     })
 }
 
 function read_file(file){
-    fs.readFile(path.join(folder, file), 'UTF-8', function(err, data) {
+    fs.readFile(file, 'UTF-8', function(err, data) {
       if (err) throw err
 
       var parse_data = parse(data);
@@ -37,3 +37,4 @@ function main(){
   var folder = process.argv[2]
   read_directory(folder)
 }
+main()

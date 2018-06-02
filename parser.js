@@ -1,3 +1,5 @@
+var conv = require("./conversion")
+
 var date_rx = /\sd\((\d\d)-(\d\d)-(\d\d\d\d)\)/
 
 function parse (data) {
@@ -35,19 +37,13 @@ function parse_line (line) {
 function parse_date (value) {
   var date = value.match(date_rx);
   if (date) {
-    date = new Date (date[3] + "-" + date[2] + "-" + date[1])
+    date = conv.read_date(date)
   }
   return date
 }
 
 function parse_status (value) {
-  var status = {
-    'x' : 'done',
-    ' ' : 'not done',
-    'w' : 'waiting',
-    'c' : 'cancelled',
-  }
-  return status[value]
+  return conv.read_status(value)
 }
 
 function parse_tree (lines, level) {
